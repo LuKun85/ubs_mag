@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.company.core.mapper.UserAuthorMapper">
+  <resultMap id="BaseResultMap" type="com.company.core.entity.TblBTSSysUsrVO">
+    <id column="USR_ID" jdbcType="VARCHAR" property="usrId" />
+    <result column="USR_NAME" jdbcType="VARCHAR" property="usrName" />
+    <result column="USR_PWD" jdbcType="VARCHAR" property="usrPwd" />
+    <result column="USR_REMARK" jdbcType="VARCHAR" property="usrRemark" />
+    <result column="USR_DISABLE_TAG" jdbcType="CHAR" property="usrDisableTag" />
+    <result column="USR_EMAIL" jdbcType="VARCHAR" property="usrEmail" />
+    <result column="USR_CREATE_BY" jdbcType="VARCHAR" property="usrCreateBy" />
+    <result column="USR_CREATE_DATE" jdbcType="TIMESTAMP" property="usrCreateDate" />
+    <result column="USR_UPDATE_BY" jdbcType="VARCHAR" property="usrUpdateBy" />
+    <result column="USR_UPDATE_DATE" jdbcType="TIMESTAMP" property="usrUpdateDate" />
+    <collection property="tblBTSSysRoleVOList" ofType="com.company.core.entity.TblBTSSysRoleVO" resultMap="RoleResultMap"/>
+  </resultMap>
+  <resultMap id="RoleResultMap" type="com.company.core.entity.TblBTSSysRoleVO">
+    <id column="ROLE_ID" jdbcType="VARCHAR" property="roleId" />
+    <result column="ROLE_NAME" jdbcType="VARCHAR" property="roleName" />
+    <result column="ROLE_DISABLE_TAG" jdbcType="CHAR" property="roleDisableTag" />
+    <result column="ROLE_REMARK" jdbcType="VARCHAR" property="roleRemark" />
+    <result column="ROLE_CREATE_BY" jdbcType="VARCHAR" property="roleCreateBy" />
+    <result column="ROLE_CREATE_DATETIME" jdbcType="TIMESTAMP" property="roleCreateDatetime" />
+    <result column="ROLE_UPDATETIME_BY" jdbcType="VARCHAR" property="roleUpdatetimeBy" />
+    <result column="ROLE_UPDATETIME_DATETIME" jdbcType="TIMESTAMP" property="roleUpdatetimeDatetime" />
+    <collection property="tblBTSSysFunctionVOList" ofType="com.company.core.entity.TblBTSSysFunctionVO" resultMap="FuncResultMap"/>
+  </resultMap>
+  <resultMap id="FuncResultMap" type="com.company.core.entity.TblBTSSysFunctionVO">
+    <id column="FUNC_ID" jdbcType="VARCHAR" property="funcId" />
+    <result column="FUNC_NAME" jdbcType="VARCHAR" property="funcName" />
+    <result column="FUNC_FATHER_ID" jdbcType="VARCHAR" property="funcFatherId" />
+    <result column="FUNC_DESC" jdbcType="VARCHAR" property="funcDesc" />
+    <result column="FUNC_REMARK" jdbcType="VARCHAR" property="funcRemark" />
+    <result column="FUNC_DISABLE_TAG" jdbcType="CHAR" property="funcDisableTag" />
+    <result column="FUNC_CREATE_BY" jdbcType="VARCHAR" property="funcCreateBy" />
+    <result column="FUNC_CREATE_DATETIME" jdbcType="TIMESTAMP" property="funcCreateDatetime" />
+    <result column="FUNC_UPDATE_BY" jdbcType="VARCHAR" property="funcUpdateBy" />
+    <result column="FUNC_UPDATE_DATETIME" jdbcType="TIMESTAMP" property="funcUpdateDatetime" />
+    <result column="FUNC_TAG" jdbcType="CHAR" property="funcTag" />
+    <result column="FUNC_LEVEL" jdbcType="CHAR" property="funcLevel" />
+    <result column="FUNC_URL" jdbcType="VARCHAR" property="funcUrl" />
+    <result column="FUNC_ICON" jdbcType="VARCHAR" property="funcIcon" />
+    <result column="FUNC_PRIORITY" jdbcType="DECIMAL" property="funcPriority" />
+  </resultMap>
+  <select id="getAuthorByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT
+    U.USR_ID, U.USR_NAME, U.USR_PWD, U.USR_REMARK, U.USR_DISABLE_TAG, U.USR_EMAIL, U.USR_CREATE_BY,
+    U.USR_CREATE_DATE, U.USR_UPDATE_BY, U.USR_UPDATE_DATE, R.ROLE_ID, R.ROLE_NAME, R.ROLE_DISABLE_TAG, R.ROLE_REMARK, R.ROLE_CREATE_BY, R.ROLE_CREATE_DATETIME,
+    R.ROLE_UPDATETIME_BY, R.ROLE_UPDATETIME_DATETIME, F.FUNC_ID, F.FUNC_NAME, F.FUNC_FATHER_ID, F.FUNC_DESC, F.FUNC_REMARK, F.FUNC_DISABLE_TAG, F.FUNC_CREATE_BY,
+    F.FUNC_CREATE_DATETIME, F.FUNC_UPDATE_BY, F.FUNC_UPDATE_DATETIME, F.FUNC_TAG, F.FUNC_LEVEL, F.FUNC_URL, F.FUNC_ICON, F.FUNC_PRIORITY
+    FROM TBL_BTS_SYS_USR U,TBL_BTS_SYS_USR_ROLE UR,TBL_BTS_SYS_ROLE R,TBL_BTS_SYS_ROLE_FUNC RF,TBL_BTS_SYS_FUNCTION F
+    WHERE 
+    U.USR_ID = #{userId} 
+    AND U.USR_ID = UR.USR_ID
+    AND R.ROLE_ID = UR.ROLE_ID
+    AND R.ROLE_ID = RF.ROLE_ID
+    AND F.FUNC_ID = RF.FUNC_ID
+  </select>
+
+
+
+</mapper>
